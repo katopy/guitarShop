@@ -21,10 +21,30 @@ function App() {
     }
   }
 
+  function removeFromCart(id) {
+    // console.log('deleting...', id)
+    setCart(prevCart => prevCart.filter(guitar => guitar.id !== id))   // id is equal is excluded from the array
+  }
+
+  function increaseQuantity(id) {
+    const updatedCart = cart.map(item => {
+      if(item.id === id){
+        return {
+          ...item,
+          quantity: item.quantity + 1
+        }
+      }
+      return item
+    })    
+    setCart(updatedCart)
+  }
+
   return (
     <>
-      <Header 
+      <Header
         cart={cart}
+        removeFromCart={removeFromCart}
+        increaseQuantity={increaseQuantity}
       />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>

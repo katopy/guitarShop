@@ -1,9 +1,10 @@
 import { useMemo } from "react"
+import { useCart } from "../hooks/useCart"
 
-export default function Header({ cart, removeFromCart, increaseQuantity }) {
+export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal }) {
 
-    const isEmpty = useMemo( () => cart.length === 0, [cart] ) // executed when cart changes
-    const cartTotal = useMemo( () => cart.reduce((total, item) => total + (item.quantity * item.price), 0), [cart] )
+    // Only one instance of each custom hook
+    //const { isEmpty, cartTotal } = useCart()  
 
     return (
         <header className="py-5 header">
@@ -11,14 +12,14 @@ export default function Header({ cart, removeFromCart, increaseQuantity }) {
                 <div className="row justify-content-center justify-content-md-between">
                     <div className="col-8 col-md-3">
                         <a href="index.html">
-                            <img className="img-fluid" src="./public/img/logo.svg" alt="imagen logo" />
+                            <img className="img-fluid" src="/img/logo.svg" alt="imagen logo" />
                         </a>
                     </div>
                     <nav className="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
                         <div
                             className="cart"
                         >
-                            <img className="img-fluid" src="./public/img/carrito.png" alt="cart image" />
+                            <img className="img-fluid" src="/img/carrito.png" alt="cart image" />
 
                             <div id="cart" className="bg-white p-3">
                                 {isEmpty ? (
@@ -51,6 +52,7 @@ export default function Header({ cart, removeFromCart, increaseQuantity }) {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-dark"
+                                                                onClick={() => decreaseQuantity(guitar.id)}
                                                             >
                                                                 -
                                                             </button>
@@ -81,7 +83,11 @@ export default function Header({ cart, removeFromCart, increaseQuantity }) {
 
                                     </>
                                 )}
-                                <button className="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
+                                <button
+                                    className="btn btn-dark w-100 mt-3 p-2"
+                                    onClick={clearCart}>
+                                    Vaciar Carrito
+                                </button>
                             </div>
                         </div>
                     </nav>
